@@ -6,6 +6,6 @@ import java.util.UUID
 data class Test(
     var randomId: UUID,
     var name: String,
+    var timeFrame: Long,
     var questions: MutableList<Question>
-) {
-}
+)

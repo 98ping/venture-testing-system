@@ -11,6 +11,5 @@ data class Student(
     val username: String,
     val email: String,
     val password: String,
-    val grade: Int,
     val allTests: MutableList<TestAttempt>
 )

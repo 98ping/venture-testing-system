@@ -12,7 +12,6 @@ class VentureService
     {
 
         lateinit var context: ConfigurableApplicationContext
-
         @JvmStatic
         fun main(args: Array<String>)
         {

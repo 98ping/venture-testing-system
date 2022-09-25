@@ -26,6 +26,6 @@ object StudentController
             return profile.get()
         }
 
-        return Student(UUID.randomUUID(), username, email, password, 100)
+        return Student(UUID.randomUUID(), username, email, password, mutableListOf())
     }
 }

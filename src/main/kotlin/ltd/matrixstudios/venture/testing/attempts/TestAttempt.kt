@@ -5,7 +5,7 @@ import ltd.matrixstudios.venture.testing.questions.Question
 import ltd.matrixstudios.venture.testing.questions.subtypes.Selectable
 import java.util.UUID
 
-data class TestAttempt(
+data class TestAttempt    (
     var createdAt: Long,
     var student: UUID,
     var allocatedTimeframe: Long,
@@ -58,8 +58,6 @@ data class TestAttempt(
     {
         var totalPointIndex = 0
 
-        val finalGrade = gradeWhenNotCompleteInTime
-
         for (question in answers)
         {
             if (question is Selectable)
@@ -67,7 +65,7 @@ data class TestAttempt(
                 val correct = question.correctOption
                 val whatTheyChose = question.studentsOption
 
-                //didnt put an answer what dweeb
+                //didnt put an answer what a dweeb
                 if (whatTheyChose != null)
                 {
                     if (correct.equals(whatTheyChose, ignoreCase = true))
@@ -78,6 +76,19 @@ data class TestAttempt(
             }
         }
 
-        return (getAllPointsForQuestions() / totalPointIndex)
+        return divideForGrade(getAllPointsForQuestions(), totalPointIndex)
+    }
+
+    fun divideForGrade(top: Int, bottom: Int) : Int
+    {
+        val dividedValue = (top / bottom).toDouble()
+
+        //incase the student is really bad and just gets nothing right LOL
+        if (dividedValue.isNaN() || dividedValue.isInfinite())
+        {
+            return 0
+        }
+
+        return dividedValue.toInt()
     }
 }
