@@ -3,15 +3,18 @@ package ltd.matrixstudios.venture.testing.attempts
 import ltd.matrixstudios.venture.testing.Test
 import ltd.matrixstudios.venture.testing.questions.Question
 import ltd.matrixstudios.venture.testing.questions.subtypes.Selectable
+import java.util.UUID
 
 data class TestAttempt(
     var createdAt: Long,
+    var student: UUID,
     var allocatedTimeframe: Long,
     var canSeeAnswersWhenDone: Boolean,
     var gradeWhenNotCompleteInTime: Int,
     var userFinalGrade: Int = 0,
     var answers: MutableList<Question>,
-    var owningTest: Test
+    var owningTest: Test,
+    var completedAt: Long
 )
 {
     fun getFinalPoints() : Int
@@ -39,11 +42,23 @@ data class TestAttempt(
         return finalPoints
     }
 
+    fun getAllPointsForQuestions() : Int
+    {
+        var pointIndex = 0
+
+        for (question in answers)
+        {
+            pointIndex = (pointIndex + question.points)
+        }
+
+        return pointIndex
+    }
+
     fun getFinalGrade() : Int
     {
-        val correctQuestionList = mutableListOf<Question>()
+        var totalPointIndex = 0
 
-        var finalGrade = gradeWhenNotCompleteInTime
+        val finalGrade = gradeWhenNotCompleteInTime
 
         for (question in answers)
         {
@@ -57,21 +72,12 @@ data class TestAttempt(
                 {
                     if (correct.equals(whatTheyChose, ignoreCase = true))
                     {
-                        correctQuestionList.add(question)
+                       totalPointIndex = (totalPointIndex + question.points)
                     }
                 }
             }
         }
 
-        for (correctQuestion in correctQuestionList)
-        {
-            val totalQuestions = answers.size
-
-            val unweightedGrade = totalQuestions / correctQuestionList.size
-
-            finalGrade = unweightedGrade
-        }
-
-        return finalGrade
+        return (getAllPointsForQuestions() / totalPointIndex)
     }
 }
