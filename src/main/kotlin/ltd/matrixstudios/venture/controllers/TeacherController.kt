@@ -10,8 +10,10 @@ import org.springframework.stereotype.Service
 import java.util.UUID
 
 @Service
-class TeacherController @Autowired constructor(val repository: TeacherRepository)
+class TeacherController
 {
+    @Autowired lateinit var repository: TeacherRepository
+
     private val cache = mutableMapOf<UUID, Teacher>()
 
     fun get(uuid: UUID) : Teacher?
