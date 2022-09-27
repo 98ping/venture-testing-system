@@ -12,9 +12,3 @@ data class Class(
     var owner: UUID,
     var members: MutableList<Student>
 )
-{
-    fun accesLiteralOwner() : Teacher?
-    {
-        return TeacherController.get(owner)
-    }
-}

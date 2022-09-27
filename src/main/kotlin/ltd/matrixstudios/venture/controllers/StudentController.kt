@@ -2,30 +2,43 @@ package ltd.matrixstudios.venture.controllers
 
 import ltd.matrixstudios.venture.models.Student
 import ltd.matrixstudios.venture.repository.mongo.StudentRepository
+import ltd.matrixstudios.venture.repository.mongo.tests.TestAttemptRepository
+import ltd.matrixstudios.venture.testing.attempts.TestAttempt
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.stereotype.Controller
+import org.springframework.stereotype.Service
 import java.util.UUID
+import javax.annotation.PostConstruct
 
-object StudentController
+@Service
+class StudentController @Autowired constructor(val studentRepository: StudentRepository, val testAttemptRepository: TestAttemptRepository)
 {
-    private val repository: StudentRepository? = null
 
     private val cache = mutableMapOf<UUID, Student>()
 
+    fun findStudentTestAttempts(student: Student) : MutableList<TestAttempt>?
+    {
+        return testAttemptRepository.findAll().filter {
+            it.student.toString() == student.identifier.toString()
+        }.collectList().block()
+    }
+
     fun exists(uuid: UUID) : Boolean?
     {
-        return repository!!.existsById(uuid).block()
+        return studentRepository.existsById(uuid).block()
     }
 
     fun loadReactiveProfile(uuid: UUID, username: String, email: String, password: String) : Student
     {
         if (cache.containsKey(uuid)) return cache[uuid]!!
 
-        val profile = repository!!.findById(uuid).blockOptional()
+        val profile = studentRepository.findById(uuid).block()
 
-        if (profile.isPresent)
+        if (profile != null)
         {
-            return profile.get()
+            return profile
         }
 
-        return Student(UUID.randomUUID(), username, email, password, mutableListOf())
+        return Student(UUID.randomUUID(), username, email, password)
     }
 }

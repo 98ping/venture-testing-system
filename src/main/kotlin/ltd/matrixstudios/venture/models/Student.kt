@@ -8,8 +8,7 @@ import java.util.UUID
 @Document
 data class Student(
     @Id val identifier: UUID,
-    val username: String,
+    val name: String,
     val email: String,
-    val password: String,
-    val allTests: MutableList<TestAttempt>
+    val password: String
 )

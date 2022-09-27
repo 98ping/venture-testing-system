@@ -4,13 +4,14 @@ import ltd.matrixstudios.venture.models.Student
 import ltd.matrixstudios.venture.testing.Test
 import ltd.matrixstudios.venture.testing.attempts.TestAttempt
 import ltd.matrixstudios.venture.testing.questions.subtypes.Selectable
+import org.springframework.stereotype.Service
 
+@Service
 object SubmissionController
 {
 
-    fun startATest(student: Student, test: Test) : TestAttempt
-    {
-        val attempt = TestAttempt(
+    fun startATest(student: Student, test: Test): TestAttempt {
+        return TestAttempt(
             System.currentTimeMillis(),
             student.identifier,
             test.timeFrame,
@@ -19,10 +20,6 @@ object SubmissionController
             0, test.questions, test,
             0L
         )
-
-        student.allTests.add(attempt)
-
-        return attempt
     }
 
     fun submitATest(testAttempt: TestAttempt)
