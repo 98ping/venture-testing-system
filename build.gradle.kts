@@ -18,12 +18,21 @@ repositories {
 }
 
 dependencies {
+    //spring
     implementation("org.springframework.boot:spring-boot-starter-data-mongodb-reactive")
-    implementation("com.google.code.gson:gson:2.8.6")
     implementation("org.springframework.boot:spring-boot-starter-web")
+
+    //google
+    implementation("com.google.code.gson:gson:2.8.6")
+
+    //kt
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
+
+    //commands
+    implementation("com.github.Revxrsal.Lamp:cli:3.0.0")
+    implementation("com.github.Revxrsal.Lamp:common:3.0.0")
 }
 
 tasks.withType<KotlinCompile> {

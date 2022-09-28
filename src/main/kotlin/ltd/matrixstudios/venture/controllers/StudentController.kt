@@ -27,6 +27,12 @@ class StudentController
         }.collectList().block()
     }
 
+    fun cacheAndSave(student: Student)
+    {
+        cache[student.identifier] = student
+        studentRepository.save(student).subscribe()
+    }
+
 
     fun exists(uuid: UUID) : Boolean?
     {
