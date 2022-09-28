@@ -1,17 +1,21 @@
 package ltd.matrixstudios.venture.submission
 
 import ltd.matrixstudios.venture.models.Student
+import ltd.matrixstudios.venture.repository.mongo.tests.TestAttemptRepository
 import ltd.matrixstudios.venture.testing.Test
 import ltd.matrixstudios.venture.testing.attempts.TestAttempt
 import ltd.matrixstudios.venture.testing.questions.subtypes.Selectable
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
 @Service
 object SubmissionController
 {
 
+    @Autowired lateinit var testAttemptRepository: TestAttemptRepository
+
     fun startATest(student: Student, test: Test): TestAttempt {
-        return TestAttempt(
+        val attempt = TestAttempt(
             System.currentTimeMillis(),
             student.identifier,
             test.timeFrame,
@@ -20,6 +24,10 @@ object SubmissionController
             0, test.questions, test,
             0L
         )
+
+        testAttemptRepository.save(attempt).subscribe()
+
+        return attempt
     }
 
     fun submitATest(testAttempt: TestAttempt)
@@ -43,5 +51,7 @@ object SubmissionController
 
         testAttempt.completedAt = System.currentTimeMillis()
         testAttempt.userFinalGrade = testAttempt.getFinalGrade()
+
+        testAttemptRepository.save(testAttempt).subscribe()
     }
 }
