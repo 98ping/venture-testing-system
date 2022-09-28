@@ -18,8 +18,7 @@ class StudentController
     @Autowired lateinit var testAttemptRepository: TestAttemptRepository
 
     private val cache = mutableMapOf<UUID, Student>()
-
-
+    
     fun findStudentTestAttempts(student: Student) : MutableList<TestAttempt>?
     {
         return testAttemptRepository!!.findAll().filter {
