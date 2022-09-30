@@ -24,8 +24,8 @@ class ClassCommands {
     @Command("class create")
     fun createClass(
         actor: CommandLineActor,
-        name: String,
-        teacherEmail: String
+        teacherEmail: String,
+        name: String
     )
     {
         val randomId = UUID.randomUUID().toString().substring(0, 6)
