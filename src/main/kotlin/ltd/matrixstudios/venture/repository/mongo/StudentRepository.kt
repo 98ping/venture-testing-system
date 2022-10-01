@@ -9,6 +9,6 @@ import java.util.UUID
 @Repository
 interface StudentRepository : ReactiveMongoRepository<Student, UUID>
 {
-    fun findByName(username: String) : Student
+    fun findByName(name: String) : Student
     fun findByEmail(email: String) : Mono<Student>
 }

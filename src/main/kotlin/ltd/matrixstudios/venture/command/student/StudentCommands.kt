@@ -25,6 +25,38 @@ class StudentCommands {
         VentureService.commandHandler.register(this)
     }
 
+    @Command("student searchname")
+    fun searchName(
+        actor: CommandLineActor,
+        name: String
+    )
+    {
+        val start = System.currentTimeMillis()
+
+        val student = studentRepository.findByName(name)
+
+        actor.reply("Student was found in " + System.currentTimeMillis().minus(start))
+
+    }
+
+    @Command("student simulate")
+    fun simulate(
+        actor: CommandLineActor,
+        amount: Int
+    )
+    {
+        val start = System.currentTimeMillis()
+
+        for (i in 0 until amount)
+        {
+            val student = Student(UUID.randomUUID(), "Student$i", "funnyemail", "funny password")
+            studentRepository.save(student).subscribe()
+        }
+
+        actor.reply("Created 200,000 students in about " + System.currentTimeMillis().minus(start) + "ms")
+
+    }
+
     @Command("student joinClass")
     fun joinClass(
         actor: CommandLineActor,
