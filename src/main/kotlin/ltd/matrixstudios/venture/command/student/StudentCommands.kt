@@ -35,7 +35,7 @@ class StudentCommands {
 
         val student = studentRepository.findByName(name)
 
-        actor.reply("Student was found in " + System.currentTimeMillis().minus(start))
+        actor.reply("Student was found in " + System.currentTimeMillis().minus(start) + "ms")
 
     }
 
