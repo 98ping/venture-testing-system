@@ -5,7 +5,7 @@ import org.springframework.data.annotation.Id
 import java.util.UUID
 
 data class Test(
-    @Id var randomId: UUID,
+    @Id var randomId: String,
     var name: String,
     var timeFrame: Long,
     var questions: MutableList<Question>

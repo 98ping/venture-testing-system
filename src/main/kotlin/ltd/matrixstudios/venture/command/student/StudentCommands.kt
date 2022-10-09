@@ -6,6 +6,7 @@ import ltd.matrixstudios.venture.controllers.StudentController
 import ltd.matrixstudios.venture.models.Student
 import ltd.matrixstudios.venture.repository.mongo.StudentRepository
 import ltd.matrixstudios.venture.repository.mongo.`class`.ClassRepository
+import ltd.matrixstudios.venture.submission.SubmissionController
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import revxrsal.commands.annotation.Command
@@ -25,6 +26,42 @@ class StudentCommands {
         VentureService.commandHandler.register(this)
     }
 
+    @Command("student starttest")
+    fun startTest(
+        actor: CommandLineActor,
+        studentEmail: String,
+        classId: String,
+        testId: String
+    )
+    {
+        val student = studentRepository.findByEmail(studentEmail).block()
+
+        if (student == null)
+        {
+            actor.reply("No student with this email found")
+            return
+        }
+
+        val clazz = classRepository.findByRandomId(classId).block()
+
+        if (clazz == null)
+        {
+            actor.reply("Class not found")
+            return
+        }
+
+        val testWithId = clazz.tests.firstOrNull { it.randomId == testId }
+
+        if (testWithId == null)
+        {
+            actor.reply("Test was not found for this class")
+            return
+        }
+
+        SubmissionController.startATest(student, testWithId)
+        actor.reply("Started a new test attempt")
+    }
+
     @Command("student searchname")
     fun searchName(
         actor: CommandLineActor,
@@ -36,7 +73,6 @@ class StudentCommands {
         val student = studentRepository.findByName(name)
 
         actor.reply("Student was found in " + System.currentTimeMillis().minus(start) + "ms")
-
     }
 
     @Command("student simulate")

@@ -36,7 +36,7 @@ class ClassCommands {
             return
         }
 
-        val test = Test(UUID.randomUUID(), name, Long.MAX_VALUE, mutableListOf())
+        val test = Test(UUID.randomUUID().toString().substring(0, 6), name, Long.MAX_VALUE, mutableListOf())
 
         val finalClazz = clazz.get()
         finalClazz.tests.add(test)
